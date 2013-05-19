@@ -67,9 +67,36 @@
 				this[i].style.display = "";
 			}
 			return this;
+		},
+		fadeOut: function(time){
+			for(var i = 0; i<this.length; i++){
+				doFadeout(this[i], time);
+			}
+			return this;
 		}
-	})
 
+	})
+	function doFadeout(el, time){
+		var iterations;
+		var opacity;
+		var totalLoops = 0;
+		var chunk = 50;
+
+		time = time || 1000;
+		iterations = time/chunk;
+		opacity = 1/iterations;
+		el.style.opacity = el.style.opacity || 1;
+		var inter = setInterval(function(){
+			if(+el.style.opacity <= 0 || totalLoops === iterations - 1){
+				el.style.display = "none";
+				clearInterval(inter);
+			}
+			else{
+				el.style.opacity -= opacity;
+			}
+			totalLoops++;
+		}, chunk)
+	}
 }(window))
 
 
