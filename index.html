@@ -5,9 +5,14 @@
 		
 	</head>
 	<body>
-		<div id="classy" style="">Hey</div>
+		<div id="classy" style="">
+			<img src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-ash4/475930_10150728397790087_1855668949_o.jpg" alt="">	
+		</div>
+		
 		<script>
-			JSPT("#classy").fadeOut(1000);
+			JSPT("img").click(function(e){
+				JSPT(this).fadeOut(1000);
+			})
 		</script>
 	</body>
 </html>

@@ -29,11 +29,18 @@
 					}
 					
 				}
+				else{
+					elems = document.getElementsByTagName(selector);
+					for(var i=0; i<elems.length; i++){
+						this[i] = elems[i];
+						this.length = elems.length;
+					}
+				}
 				
 				
 			}
 			else if(selector.nodeType){
-				this[0] = nodeType;
+				this[0] = selector;
 				this.length = 1;
 			}
 			else if(selector instanceof JSPT){
@@ -68,11 +75,24 @@
 			}
 			return this;
 		},
+		//Make this take a callback when we get promises set up!
 		fadeOut: function(time){
 			for(var i = 0; i<this.length; i++){
-				doFadeout(this[i], time);
+				doFadeout.call(this, this[i], time);
 			}
 			return this;
+		},
+		click: function(callback){
+			var that = this;
+			for(var i = 0; i<this.length; i++){
+				(function(el){
+
+					el.onclick = function(e){
+						callback.call(el, e);
+					}
+				}(this[i]))
+				
+			}
 		}
 
 	})
@@ -81,8 +101,8 @@
 		var opacity;
 		var totalLoops = 0;
 		var chunk = 50;
-
-		time = time || 1000;
+		var that = this;
+		time = time || 500;
 		iterations = time/chunk;
 		opacity = 1/iterations;
 		el.style.opacity = el.style.opacity || 1;
