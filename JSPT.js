@@ -68,18 +68,32 @@
 			}
 			return this;
 		},
-		fadeOut: function(){
-			var opacity;
+		fadeOut: function(time){
 			for(var i = 0; i<this.length; i++){
-				//opacity = parseInt(this[i].style.opacity) || 1;
-				if(parseInt(this[i].style.opacity) === 0)
-					this[i].style.display = "none";
-				else
-					this[i].style.opacity -= .1;
+				doFadeout(this[i], time);
 			}
-			setInterval(function(){clock()},1000);
 			return this;
 		}
-	})
 
+	})
+	function doFadeout(el, time){
+		var iterations;
+		var opacity;
+		var totalLoops = 0;
+		var chunk = 50;
+		time = time || 1000;
+		iterations = time/chunk;
+		opacity = 1/iterations;
+		el.style.opacity = el.style.opacity || 1;
+		var inter = setInterval(function(){
+			if(+el.style.opacity <= 0 || totalLoops === iterations - 1){
+				el.style.display = "none";
+				clearInterval(inter);
+			}
+			else{
+				el.style.opacity -= opacity;
+			}
+			totalLoops++;
+		}, chunk)
+	}
 }(window))
