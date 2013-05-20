@@ -54,7 +54,6 @@
 	}
 	JSPT.fn.init.prototype = JSPT.fn;
 	JSPT.extend = JSPT.fn.extend = function(object){
-		console.log(this);
 		if(typeof object !== "object"){
 			return;
 		}
@@ -102,9 +101,54 @@
 				}(this[i]))
 				
 			}
+		}, 
+		attr: function(name, value){
+			if(value){
+				for(var i=0; i<this.length; i++){
+					this[i].setAttribute(name, value);
+				}
+			}
+			else{
+				if(this.length){
+					return this[0].getAttribute(name);
+				}
+				return null;
+			}
+		}, 
+		each: function(callback){
+			for(var i=0; i<this.length; i++){
+				callback.call(this[i], i, this[i]);
+			}
 		}
 
+	});
+
+	JSPT.extend({
+		each: function(el, callback){
+			if(!el){
+				return;
+			}
+			if(JSPT.isArray(el) || el instanceof JSPT){
+				for(var i=0; i<el.length; i++){
+					callback.call(el[i], i, el[i])
+				}
+			}
+			else if(typeof el === "object"){
+				for(key in el){
+					callback.call(el[key], key, el[key])
+				}
+			}
+		},
+		isArray: function(el){
+			if(!Array.isArray) {
+			  	return Object.prototype.toString.call(el) === "[object Array]";
+			}
+			else{
+				return Array.isArray(el);
+			}
+		}
 	})
+
 	function doFadeout(el, time){
 		var iterations;
 		var opacity;
@@ -135,7 +179,6 @@
 		time = time || 1000;
 		iterations = time/chunk;
 		opacity = 1/iterations;
-		console.log(iterations)
 		el.style.display = "";
 		var inter = setInterval(function(){
 			o = +el.style.opacity;
