@@ -117,7 +117,10 @@
 		}, 
 		each: function(callback){
 			for(var i=0; i<this.length; i++){
-				callback.call(this[i], i, this[i]);
+				var stop = callback.call(this[i], i, this[i]);
+				if(stop === false){
+					break;
+				}
 			}
 		}
 
@@ -130,12 +133,18 @@
 			}
 			if(JSPT.isArray(el) || el instanceof JSPT){
 				for(var i=0; i<el.length; i++){
-					callback.call(el[i], i, el[i])
+					var stop = callback.call(el[i], i, el[i])
+					if(stop === false){
+						break;
+					}
 				}
 			}
 			else if(typeof el === "object"){
 				for(key in el){
-					callback.call(el[key], key, el[key])
+					var stop = callback.call(el[key], key, el[key]);
+					if(stop === false){
+						break;
+					}
 				}
 			}
 		},
