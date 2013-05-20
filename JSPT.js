@@ -68,6 +68,12 @@
 			}
 			return this;
 		},
+		fadeIn: function(time){
+			for(var i = 0; i<this.length; i++){
+				doFadein(this[i], time);
+			}
+			return this;
+		},
 		fadeOut: function(time){
 			for(var i = 0; i<this.length; i++){
 				doFadeout(this[i], time);
@@ -84,7 +90,6 @@
 		time = time || 1000;
 		iterations = time/chunk;
 		opacity = 1/iterations;
-		el.style.opacity = el.style.opacity || 1;
 		var inter = setInterval(function(){
 			if(+el.style.opacity <= 0 || totalLoops === iterations - 1){
 				el.style.display = "none";
@@ -92,6 +97,29 @@
 			}
 			else{
 				el.style.opacity -= opacity;
+			}
+			totalLoops++;
+		}, chunk)
+	}
+	function doFadein(el, time){
+		var iterations;
+		var o;
+		var opacity;
+		var totalLoops = 0;
+		var chunk = 50;
+		time = time || 1000;
+		iterations = time/chunk;
+		opacity = 1/iterations;
+		console.log(iterations)
+		el.style.display = "";
+		var inter = setInterval(function(){
+			o = +el.style.opacity;
+			if(totalLoops === iterations){
+				clearInterval(inter);
+			}
+			else{
+				o += opacity;
+				el.style.opacity = o;
 			}
 			totalLoops++;
 		}, chunk)
