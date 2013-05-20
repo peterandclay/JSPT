@@ -114,6 +114,7 @@
 		time = time || 500;
 		iterations = time/chunk;
 		opacity = 1/iterations;
+		el.style.opacity = el.style.opacity || 1;
 		var inter = setInterval(function(){
 			if(+el.style.opacity <= 0 || totalLoops === iterations - 1){
 				el.style.display = "none";
