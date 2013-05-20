@@ -54,6 +54,7 @@
 	}
 	JSPT.fn.init.prototype = JSPT.fn;
 	JSPT.extend = JSPT.fn.extend = function(object){
+		console.log(this);
 		if(typeof object !== "object"){
 			return;
 		}
@@ -61,7 +62,6 @@
 			this[key] = object[key];
 		}
 	}
-
 	JSPT.fn.extend({
 		hide:function(){
 			for(var i = 0; i<this.length; i++){
