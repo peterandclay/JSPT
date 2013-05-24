@@ -104,7 +104,7 @@
 			}
 		}, 
 		attr: function(name, value){
-			if(value){
+			if(value || value === ""){
 				for(var i=0; i<this.length; i++){
 					this[i].setAttribute(name, value);
 				}
@@ -122,6 +122,40 @@
 				if(stop === false){
 					break;
 				}
+			}
+		},
+		addClass: function(classname){
+			var classes;
+			var el;
+			if(typeof classname !== "string"){
+				return this;
+			}
+			for(var i=0; i<this.length; i++){
+				el = JSPT(this[i]);
+				classes = (el.attr("class") || "").split(" ");
+				classes.push(classname);
+				classes = classes.join(" ").replace(/^\s+|\s+$/g, '');
+				el.attr("class", classes);
+			}
+			//Check to see if it has that class already replace with hasClass when peter finishes
+		},
+		removeClass: function(classname){
+			var classes;
+			var el;
+			if(typeof classname !== "string"){
+				return this;
+			}
+			for(var i=0; i<this.length; i++){
+				el = JSPT(this[i]);
+				classes = (el.attr("class") || "").replace(/^\s+|\s+$/g, '').split(" ");
+				for(var j=0; j<classes.length; j++){
+					if(classes[j] === classname){
+						classes.splice(j, 1);
+						j--
+					}
+				}
+				classes = classes.join(" ");
+				el.attr("class", classes);
 			}
 		}
 

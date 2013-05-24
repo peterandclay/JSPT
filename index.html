@@ -4,23 +4,29 @@
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 		<script src="JSPT.js"></script>
 	</head>
+	<style>
+		.redBorder{
+			border:3px red solid;
+		}
+		.red{
+			background:blue;
+		}
+	</style>
 	<body>
 
-		<div id="classy" style="">
+		<div id="classy" class="red">
 			<img src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-ash4/475930_10150728397790087_1855668949_o.jpg" alt="">	
 			<img src="http://d2o0t5hpnwv4c1.cloudfront.net/1038_sublime/sublime.png" alt="">
 		</div>
 		
 		<script>
-
-			JSPT("img").click(function(e){
-				var that = this;
-				JSPT(this).fadeOut(1000);
-				setTimeout(function(){
-					JSPT(that).fadeIn(1000);
-				}, 3000)
-			});
-
+		JSPT("div").addClass("redBorder");
+			setTimeout(function(){
+				JSPT("div").removeClass("redBorder");
+			}, 1000);
+			setTimeout(function(){
+				JSPT("div").removeClass("red");
+			}, 2000)
 		</script>
 	</body>
 </html>
