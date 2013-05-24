@@ -54,7 +54,6 @@
 	}
 	JSPT.fn.init.prototype = JSPT.fn;
 	JSPT.extend = JSPT.fn.extend = function(object){
-		console.log(this);
 		if(typeof object !== "object"){
 			return;
 		}
@@ -103,9 +102,63 @@
 				}(this[i]))
 				
 			}
+		}, 
+		attr: function(name, value){
+			if(value){
+				for(var i=0; i<this.length; i++){
+					this[i].setAttribute(name, value);
+				}
+			}
+			else{
+				if(this.length){
+					return this[0].getAttribute(name);
+				}
+				return null;
+			}
+		}, 
+		each: function(callback){
+			for(var i=0; i<this.length; i++){
+				var stop = callback.call(this[i], i, this[i]);
+				if(stop === false){
+					break;
+				}
+			}
 		}
 
+	});
+
+	JSPT.extend({
+		each: function(el, callback){
+			if(!el){
+				return;
+			}
+			if(JSPT.isArray(el) || el instanceof JSPT){
+				for(var i=0; i<el.length; i++){
+					var stop = callback.call(el[i], i, el[i])
+					if(stop === false){
+						break;
+					}
+				}
+			}
+			else if(typeof el === "object"){
+				for(key in el){
+					var stop = callback.call(el[key], key, el[key]);
+					if(stop === false){
+						break;
+					}
+				}
+			}
+		},
+		isArray: function(el){
+			if(!Array.isArray) {
+			  	return Object.prototype.toString.call(el) === "[object Array]";
+			}
+			else{
+				return Array.isArray(el);
+			}
+		}
 	})
+
 	function doFadeout(el, time){
 		var iterations;
 		var opacity;
