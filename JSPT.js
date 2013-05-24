@@ -94,8 +94,9 @@
 		click: function(callback){
 			var that = this;
 			for(var i = 0; i<this.length; i++){
+				// want to make sure we capture the correct value for i so we wrap it in a function
 				(function(el){
-
+					//We call the callback inside of a function so that we can bind this for the callback to be the element we ran the click listener on
 					el.onclick = function(e){
 						callback.call(el, e);
 					}
@@ -116,7 +117,7 @@
 		opacity = 1/iterations;
 		el.style.opacity = el.style.opacity || 1;
 		var inter = setInterval(function(){
-			if(+el.style.opacity <= 0 || totalLoops === iterations - 1){
+			if(+el.style.opacity <= 0 || totalLoops === iterations){
 				el.style.display = "none";
 				clearInterval(inter);
 			}
@@ -135,7 +136,6 @@
 		time = time || 1000;
 		iterations = time/chunk;
 		opacity = 1/iterations;
-		console.log(iterations)
 		el.style.display = "";
 		var inter = setInterval(function(){
 			o = +el.style.opacity;

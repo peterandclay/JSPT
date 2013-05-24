@@ -12,7 +12,11 @@
 		
 		<script>
 			JSPT("img").click(function(e){
+				var that = this;
 				JSPT(this).fadeOut(1000);
+				setTimeout(function(){
+					JSPT(that).fadeIn(1000);
+				}, 3000)
 			});
 		</script>
 	</body>
