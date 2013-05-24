@@ -16,17 +16,25 @@
 
 		<div id="classy" class="red">
 			<img src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-ash4/475930_10150728397790087_1855668949_o.jpg" alt="">	
-			<img src="http://d2o0t5hpnwv4c1.cloudfront.net/1038_sublime/sublime.png" alt="">
+			
 		</div>
-		
+		<div class="red"><img src="http://d2o0t5hpnwv4c1.cloudfront.net/1038_sublime/sublime.png" alt=""></div>
 		<script>
-		JSPT("div").addClass("redBorder");
+		function F(){
+			var p = JSPT.Promise();
 			setTimeout(function(){
-				JSPT("div").removeClass("redBorder");
-			}, 1000);
-			setTimeout(function(){
-				JSPT("div").removeClass("red");
-			}, 2000)
+				p.resolve(5)
+			},2000);
+			return p.promise();
+		}
+		dude = F()
+		dude.then(function(v){
+			console.log(v);
+		});
+		dude.then(function(v){
+			console.log(v)
+		})
+		JSPT("div").eq(0).addClass("redBorder")
 		</script>
 	</body>
 </html>

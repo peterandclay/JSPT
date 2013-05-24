@@ -1,6 +1,7 @@
 
 (function(window, undefined){
 	var document = window.document;
+	var Promise;
 	JSPT = function(el){
 		return new JSPT.fn.init(el);
 	}
@@ -138,6 +139,7 @@
 				el.attr("class", classes);
 			}
 			//Check to see if it has that class already replace with hasClass when peter finishes
+			return this;
 		},
 		removeClass: function(classname){
 			var classes;
@@ -157,6 +159,19 @@
 				classes = classes.join(" ");
 				el.attr("class", classes);
 			}
+			return this;
+		},
+		eq: function(idx){
+			if(!idx && idx !== 0){
+				throw new TypeError("Dude give me an argument")
+			}
+			if(idx < 0){
+				idx = this.length + idx;
+			}
+			if(idx > this.length - 1 || idx < 0){
+				return JSPT();
+			}
+			return JSPT(this[idx]);
 		}
 
 	});
@@ -191,6 +206,7 @@
 				return Array.isArray(el);
 			}
 		}
+
 	})
 
 	function doFadeout(el, time){
@@ -236,4 +252,63 @@
 			totalLoops++;
 		}, chunk)
 	}
+	Promise = (function(){
+		return function(){
+			var status = "pending"
+			var fails = []
+			var success = []
+			var fate;
+			function enqueue(s, fail){
+				fails.push(fail);
+				success.push(s);
+				if(status !== "pending"){
+					enlighten(status);
+				}
+			}
+			function herald(value, passFail){
+				if(passFail){
+					status = "kept";
+				}
+				else{
+					status = "broken"
+				}
+				fate = value;
+				enlighten(status);
+			}
+			function enlighten(status){
+				if(status){
+					success.forEach(function(f){
+						setTimeout(function(){
+							f(fate);
+						}, 0)
+					});
+				}
+				else{
+					fails.forEach(function(f){
+						setTimeout(function(){
+							f(fate);
+						}, 0)
+					})
+				}
+			}
+			return{
+				promise:function(){
+					return{
+						then:function(success, fail){
+							enqueue(success, fail);
+						}
+					}
+				},
+				resolve: function(value){
+					herald(value, true);
+				},
+				reject: function(value){
+					herald(value, false);
+				}
+			}
+		}
+	}());
+	JSPT.extend({
+		Promise: Promise,
+	})
 }(window))
